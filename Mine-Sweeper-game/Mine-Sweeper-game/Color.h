@@ -1,7 +1,6 @@
 #pragma once
 #include <Windows.h>
 #include <conio.h>
-#include <Windows.h>
 
 using namespace std;
 enum color4 {
@@ -21,4 +20,13 @@ enum color4 {
 	Lmagenta,
 	Yellow,
 	White
+};
+
+class Color
+{
+public:
+	static void setcolor(int txt, int bg)
+	{
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), txt + bg * 16);
+	}
 };
