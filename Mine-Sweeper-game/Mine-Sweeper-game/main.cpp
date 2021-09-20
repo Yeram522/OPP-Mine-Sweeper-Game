@@ -8,17 +8,51 @@
 #include <cstdlib> // stdlib.h
 #include <string> // c++ string class
 #include <Windows.h>
+#include "Color.h"
 #include "Utils.h"
 
+void setcolor(int txt, int bg);
 
-class Screen;
-class GameObject;
+class Field {//? defualt:오픈 안됨/ * spot: 지뢰 존재 /   nothing: 아무것도 없음/ F : flag
+private:
+	char shape;
+	int state;
+
+public:
+	//생성자: 초기 필드는 모드 defualt 값을 가지고 있다.
+	Field()
+		: state(0)
+	{
+		shape = '?';
+	}
+
+	//return Field Shape : 자신의 shape를 리턴.
+	char GetShape()
+	{
+		return shape;
+	}
+
+	int GetState()
+	{
+		return state;
+	}
+
+	//필드의 상태를 바꿔준다.
+	void Changestate()
+	{
+
+	}
+
+
+
+};
 
 class Screen {
+
 private:
-	int		width; // visible width
-	int		height;
-	int		size;
+	int width;
+	int height;
+	int size;
 	char* canvas;
 
 public:
@@ -42,7 +76,7 @@ public:
 			canvas = new char[size];
 		}
 	}
-	// destructor (소멸자 함수) 메모리공간상에서 없어지는 순간 호출되는 함수
+
 	virtual ~Screen()
 	{
 		delete[] canvas;
@@ -50,96 +84,80 @@ public:
 		width = 0; height = 0;
 	}
 
-	int getWidth()
-	{
-		return width;
-	}
 
 	void clear()
 	{
 		memset(canvas, ' ', size);
 	}
-	void draw(const Position& pos, const char* shape, const Dimension& sz = Position{ 1, 1 })
+
+	void draw(const Position& pos,Field* _fields)
 	{
 		int offset = (width + 1) * pos.y + pos.x;
-		for (int h = 0; h < sz.y; h++)
-			strncpy(&canvas[offset + (width + 1) * h], &shape[h * sz.x], sz.x);
+		for (int i = 0; i < (width + 1) * height; i++)
+		{
+			const char shape = _fields[i].GetShape();
+			strcpy(&canvas[offset+i], &shape);
+		}
 	}
+	
 	void render()
 	{
-		Borland::gotoxy(0, 0);
+		Borland::gotoxy(0, 1);
 		for (int h = 0; h < height; h++)
 			canvas[(width + 1) * (h + 1) - 1] = '\n';
 		canvas[size - 1] = '\0';
-		printf("%s", canvas);
-	}
+		
+		for (int i = 0; i < (width + 1) * height; i++)
+		{
+			if (i == (width + 1) * height - 1) setcolor(White, White);
+			else
+				setcolor(Green, Green);
+			printf("%c", canvas[i]);
+			
 
+		}
+		      		
+	}
 };
-class GameObject
+
+void setcolor(int txt, int bg)
 {
-private:
-	char	face[20];
-	int		pos;
-	int		direction;
-	Screen* screen;
-	GameObject** gameObjects;
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), txt + bg * 16);
+}
 
-public:
-
-	GameObject(GameObject** gameObjects, Screen* screen, const char* face, int pos, int direction)
-		: pos(pos), direction(direction), screen(screen), gameObjects(gameObjects)
-	{
-		setFace(face);
-	}
-	virtual ~GameObject() {}
-
-	void move(int direction)
-	{
-	}
-	void move()
-	{
-	}
-	virtual void draw()
-	{
-	}
-	virtual void update() {}
-
-	int getPos() { return pos; } // getter function
-	void setPos(int pos) { this->pos = pos; } // setter function
-
-	int getDirection() { return direction; }
-	void setDirection(int direction) { this->direction = direction; }
-
-	const char* getFace() { return face; }
-	void setFace(const char* face) { strcpy(this->face, face); }
-
-	Screen* getScreen() { return screen; }
-	GameObject** getGameObjects() { return gameObjects; }
-};
+void Update_UI()
+{
+	Borland::gotoxy(0, 0);
+	setcolor(Black, White);
+	printf("Hello");
+}
 
 int main()
 {
-	int major;
-	int minor;
+	Field* fields = new Field[20 * 20];
+	Position pos = { 0,0 };
+	Screen screen(10, 11);
+	system("mode con cols=25 lines=25 | title Mine Swiper");
+	
 
-	Screen  screen(20, 10);
-	Position pos{ 1, 2 };
-	char shape[] = "**    **     **";
-	Dimension sz{ (int)strlen(shape), 1 };
-
+	
 	bool isLooping = true;
 	while (isLooping) {
+		Update_UI();
 		screen.clear();
-
-		screen.draw(pos, shape, sz);
+		
+		screen.draw(pos,fields);
 
 		screen.render();
+		
+		
 		Sleep(100);
 
-		pos.x = (pos.x + 1) % (screen.getWidth());
+		//pos.x = (pos.x + 1) % (screen.getWidth());
 
 	}
 	printf("\nGame Over\n");
 
 	return 0;
 }
+
