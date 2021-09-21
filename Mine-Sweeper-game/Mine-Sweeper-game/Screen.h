@@ -9,6 +9,7 @@
 #include <cstdlib> // stdlib.h
 #include <string> // c++ string class
 #include <Windows.h>
+#include <time.h>  
 #include "Color.h"
 #include "Utils.h"
 #include "Field.h"
@@ -50,8 +51,6 @@ public:
 		width = 0; height = 0;
 	}
 
-	
-
 	void clear()
 	{
 		memset(canvas, ' ', size);
@@ -69,19 +68,22 @@ public:
 
 	void render()
 	{
-		Borland::gotoxy(0, 1);
+		Borland::gotoxy(0, 2);
 		for (int h = 0; h < height; h++)
 			canvas[(width + 1) * (h + 1) - 1] = '\n';
 		canvas[size - 1] = '\0';
 
 		for (int i = 0; i < (width + 1) * height; i++)
 		{
-			if (i == (width + 1) * height - 1) Color::setcolor(White, White);
-			else
-				Color::setcolor(Green, Green);
+			
+			Color::setcolor(White, Green);	
+			printf(" | ");
+			if (i == size - 1) Color::setcolor(Black, Black);
 			printf("%c", canvas[i]);
 		}
 	}
 
-	static void Update_UI();
+	static void Start_game();
+	static void Set_Filed(int _spot);
+	static void Update_UI(const int _time);
 };

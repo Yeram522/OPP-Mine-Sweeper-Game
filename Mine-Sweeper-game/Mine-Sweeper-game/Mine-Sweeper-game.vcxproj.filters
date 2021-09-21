@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\Field">
+      <UniqueIdentifier>{fdb30443-f636-4af0-820f-2804a194b365}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Render">
+      <UniqueIdentifier>{88e8afcc-b6d8-44c9-823d-74b2c4da482e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -26,14 +32,23 @@
     <ClInclude Include="Utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Color.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Screen.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Defualt.h">
+      <Filter>Header Files\Field</Filter>
     </ClInclude>
     <ClInclude Include="Field.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Field</Filter>
+    </ClInclude>
+    <ClInclude Include="Screen.h">
+      <Filter>Header Files\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Color.h">
+      <Filter>Header Files\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Spot.h">
+      <Filter>Header Files\Field</Filter>
+    </ClInclude>
+    <ClInclude Include="Nothing.h">
+      <Filter>Header Files\Field</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -145,8 +145,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Color.h" />
+    <ClInclude Include="Defualt.h" />
     <ClInclude Include="Field.h" />
+    <ClInclude Include="Nothing.h" />
     <ClInclude Include="Screen.h" />
+    <ClInclude Include="Spot.h" />
     <ClInclude Include="Utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
