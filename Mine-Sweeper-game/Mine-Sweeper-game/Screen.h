@@ -70,12 +70,11 @@ public:
 	{
 		Borland::gotoxy(0, 2);
 		for (int h = 0; h < height; h++)
-			canvas[(width + 1) * (h + 1) - 1] = '\n';
-		canvas[size - 1] = '\0';
+			canvas[(width + 1) * h - 1] = '\n';
+		canvas[size-1] = '\0';
 
-		for (int i = 0; i < (width + 1) * height; i++)
-		{
-			
+		for (int i = 0; i < (width + 1) * (height-1); i++)
+		{	
 			Color::setcolor(White, Green);	
 			printf(" | ");
 			if (i == size - 1) Color::setcolor(Black, Black);
@@ -84,6 +83,7 @@ public:
 	}
 
 	static void Start_game();
-	static void Set_Filed(int _spot);
+	static void Set_Filed(const int _size, const int _spot, Field* _fields);
 	static void Update_UI(const int _time);
+	static bool Check_OverLap_Seed(int* _seeds, const int _seed);
 };

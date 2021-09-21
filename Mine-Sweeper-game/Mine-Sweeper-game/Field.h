@@ -21,12 +21,13 @@ public:
 	Field()
 		: state(STATE_DEFUALT)
 	{
-		shape = 'v';
+		shape = 'D';
 	}
 
 	//return Field Shape : 자신의 shape를 리턴.
 	char GetShape()
 	{
+
 		return shape;
 	}
 
@@ -36,9 +37,25 @@ public:
 	}
 
 	//필드의 상태를 바꿔준다.
-	void Changestate()
+	void Changestate(int _state)
 	{
+		this->state = _state;
 
+		switch (state)
+		{
+		case STATE_DEFUALT:
+			shape = 'D';
+			break;
+		case STATE_SPOT:
+			shape = '*';
+			break;
+		case STATE_NOTHING:
+			shape = ' ';
+			break;
+		case STATE_FLAG:
+			shape = 'F';
+			break;
+		}
 	}
 
 };
