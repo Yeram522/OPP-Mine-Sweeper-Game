@@ -85,5 +85,5 @@ public:
 	static void Start_game();
 	static void Set_Filed(const int _size, const int _spot, Field* _fields);
 	static void Update_UI(const int _time);
-	static bool Check_OverLap_Seed(int* _seeds, const int _seed);
+	static bool Check_OverLap_Seed(const int* _seeds, const int _seed);
 };
