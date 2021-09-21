@@ -3,6 +3,7 @@
 #include <conio.h>
 
 using namespace std;
+
 enum color4 {
 	Black = 0,
 	Blue,
