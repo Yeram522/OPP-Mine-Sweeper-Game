@@ -16,6 +16,9 @@ void Game2D::Update_UI(const int _time)
 	Borland::gotoxy(0, 0);
 	printf("▤▤▤▤▤  Flag: %d || Time: %d  ▤▤▤▤▤\n", _time, 0);
 	printf("-------------------------------------------");
+
+	Borland::gotoxy(45, 3);
+	printf("How To Game\n");
 }
 
 void Game2D::ErrorExit(const char* lpszMessage)
@@ -75,6 +78,7 @@ void Game2D::MouseEventProc(MOUSE_EVENT_RECORD mer)
 		if (mer.dwButtonState == FROM_LEFT_1ST_BUTTON_PRESSED)
 		{
 			printf("left button press %d %d\n", mer.dwMousePosition.X, mer.dwMousePosition.Y);
+			GetClickedField(mer);
 		}
 		else if (mer.dwButtonState == RIGHTMOST_BUTTON_PRESSED)
 		{
@@ -146,7 +150,7 @@ void Game2D::run()
 		ErrorExit("SetConsoleMode");
 
 
-
+	//게임 루프 스타트!!
 	while (isLooping) {
 		
 		clear();
@@ -201,6 +205,7 @@ void Game2D::run()
 		Sleep(100);
 
 	}
+
 	printf("\nGame Over\n");
 
 }

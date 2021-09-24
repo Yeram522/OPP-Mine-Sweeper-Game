@@ -12,7 +12,6 @@
 #include <time.h>  
 #include "Utils.h"
 #include "Field.h"
-#include "Screen.h"
 
 class Game2D
 {
@@ -23,9 +22,6 @@ private:
 	char* canvas;
 
 public:
-	
-
-	// constructor (생성자 함수) 메모리공간상에 적재되는 순간 호출되는
 	Game2D(int width = 10, int height = 10)
 		: width(width), height(height), canvas(new char[(width + 1) * height])
 	{
@@ -52,6 +48,12 @@ public:
 		width = 0; height = 0;
 	}
 
+	int GetSize()
+	{
+		return this->size;
+	}
+
+	//About Canvas Draw---------------------------------------------
 	void clear()
 	{
 		memset(canvas, ' ', size);
@@ -82,25 +84,33 @@ public:
 			printf("%c", canvas[i]);
 		}
 	}
+	//--------------------------------------------------------------
 
-
-
+	//About Game Logic/Init-----------------------------------------
 	static void Start_game();
 
 	static void Update_UI(const int _time);
-
+	//--------------------------------------------------------------
+	//
+	//About KeyBoard and Mouse Input--------------------------------
 	static void ErrorExit(const char*);
 	static void KeyEventProc(KEY_EVENT_RECORD);
 	static void MouseEventProc(MOUSE_EVENT_RECORD);
 	static void ResizeEventProc(WINDOW_BUFFER_SIZE_RECORD);
-
+	//--------------------------------------------------------------
+	// 
+	//Can Override in Sibling Class----------------------------------
 	void run();
 
 	virtual void update()
 	{
-		// draw
-		// play sould
-		// physics update
-		// etc.
+		//Game2D::Update_UI(this->flag_count);
+		//draw(pos, fields);
+		//render();
+	}
+
+	virtual void GetClickedField(MOUSE_EVENT_RECORD mer)
+	{ 	
+	  //클릭되었을때 처리
 	}
 };

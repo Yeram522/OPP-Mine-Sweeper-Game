@@ -15,9 +15,11 @@ enum fieldstate
 
 class Field {
 private:
+	WindowPos Winpos;
 	char shape; //static_cast<char>(fieldstate)
 	int state; //fieldstate
 	bool Isclicked; //필드가 클릭된 상태인지 아닌지.
+	
 
 public:
 	//생성자: 초기 필드는 모두 defualt 값을 가지고 있다.
@@ -37,6 +39,11 @@ public:
 	int GetState()
 	{
 		return state;
+	}
+
+	WindowPos GetWinpos()
+	{
+		return Winpos;
 	}
 
 	//필드의 상태를 바꿔준다.
@@ -64,8 +71,9 @@ public:
 		}
 	}
 
+	void Clicked();
+	void Init_Winpos(int _index);
 	static void Set_Field(const int _size, const int _spot, Field* _fields);
 	static bool Check_OverLap_Seed(const int* _seeds, const int _seed);	
 	static void Compute_Near_Mine(const int _size, Field* _fields);
-
 };
