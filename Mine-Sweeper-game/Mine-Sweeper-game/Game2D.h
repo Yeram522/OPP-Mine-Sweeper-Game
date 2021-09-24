@@ -10,12 +10,12 @@
 #include <string> // c++ string class
 #include <Windows.h>
 #include <time.h>  
-#include "Color.h"
 #include "Utils.h"
 #include "Field.h"
+#include "Screen.h"
 
-class Screen {
-
+class Game2D
+{
 private:
 	int width;
 	int height;
@@ -23,9 +23,10 @@ private:
 	char* canvas;
 
 public:
+	
 
 	// constructor (생성자 함수) 메모리공간상에 적재되는 순간 호출되는
-	Screen(int width = 10, int height = 10)
+	Game2D(int width = 10, int height = 10)
 		: width(width), height(height), canvas(new char[(width + 1) * height])
 	{
 		bool faultyInput = false;
@@ -44,7 +45,7 @@ public:
 		}
 	}
 
-	virtual ~Screen()
+	virtual ~Game2D()
 	{
 		delete[] canvas;
 		canvas = nullptr;
@@ -71,19 +72,35 @@ public:
 		Borland::gotoxy(0, 2);
 		for (int h = 0; h < height; h++)
 			canvas[(width + 1) * h - 1] = '\n';
-		canvas[size-1] = '\0';
+		canvas[size - 1] = '\0';
 
-		for (int i = 0; i < (width + 1) * (height-1); i++)
-		{	
-			Color::setcolor(White, Green);	
+		for (int i = 0; i < (width + 1) * (height - 1); i++)
+		{
+
 			printf(" | ");
-			//if (i == size - 1) Color::setcolor(White, White);
+
 			printf("%c", canvas[i]);
 		}
 	}
 
+
+
 	static void Start_game();
-	
+
 	static void Update_UI(const int _time);
-	
+
+	static void ErrorExit(const char*);
+	static void KeyEventProc(KEY_EVENT_RECORD);
+	static void MouseEventProc(MOUSE_EVENT_RECORD);
+	static void ResizeEventProc(WINDOW_BUFFER_SIZE_RECORD);
+
+	void run();
+
+	virtual void update()
+	{
+		// draw
+		// play sould
+		// physics update
+		// etc.
+	}
 };
