@@ -14,8 +14,10 @@ public:
 		:fields(new Field[11 * 10]), pos(0, 0), screen(10, 11), flag_count(0)
 	{
 		system("mode con cols=50 lines=25 | title Mine Swiper");
-		flag_count = rand() % 11 + 10;//0~10-> (0+10)~(10+10) -> 10 ~20
-		Screen::Set_Filed(11 * 10, flag_count, fields);
+		//flag_count = rand() % 11 + 10;//0~10-> (0+10)~(10+10) -> 10 ~20
+		flag_count = 5;//0~10-> (0+10)~(10+10) -> 10 ~20
+		Field::Set_Field(11 * 10, flag_count, fields);
+		Field::Compute_Near_Mine(11 * 10, fields);
 	}
 
 	int run()

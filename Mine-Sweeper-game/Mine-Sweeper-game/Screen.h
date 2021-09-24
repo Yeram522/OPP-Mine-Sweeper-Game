@@ -77,7 +77,7 @@ public:
 		{	
 			Color::setcolor(White, Green);	
 			printf(" | ");
-			if (i == size - 1) Color::setcolor(Black, Black);
+			//if (i == size - 1) Color::setcolor(White, White);
 			printf("%c", canvas[i]);
 		}
 	}
