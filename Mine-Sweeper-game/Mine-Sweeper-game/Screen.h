@@ -10,7 +10,6 @@
 #include <string> // c++ string class
 #include <Windows.h>
 #include <time.h>  
-#include "Color.h"
 #include "Utils.h"
 #include "Field.h"
 
@@ -75,9 +74,9 @@ public:
 
 		for (int i = 0; i < (width + 1) * (height-1); i++)
 		{	
-			Color::setcolor(White, Green);	
+
 			printf(" | ");
-			//if (i == size - 1) Color::setcolor(White, White);
+	
 			printf("%c", canvas[i]);
 		}
 	}

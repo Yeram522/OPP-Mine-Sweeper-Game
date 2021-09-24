@@ -11,8 +11,6 @@ void Screen::Start_game()
 void Screen::Update_UI(const int _time)
 {
 	Borland::gotoxy(0, 0);
-	Color::setcolor(White, Black);
 	printf("�ǢǢǢǢ�  Flag: %d || Time: %d  �ǢǢǢǢ�\n", _time , 0 );
-	Color::setcolor(White, Green);
 	printf("-------------------------------------------");
 }
