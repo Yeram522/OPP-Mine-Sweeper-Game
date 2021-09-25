@@ -24,7 +24,7 @@ private:
 public:
 	//생성자: 초기 필드는 모두 defualt 값을 가지고 있다.
 	Field()
-		: state(STATE_DEFUALT), Isclicked(true)
+		: state(STATE_DEFUALT), Isclicked(false), Winpos(0,0)
 	{
 		shape = static_cast<char>(STATE_DEFUALT);
 	}
@@ -46,10 +46,16 @@ public:
 		return Winpos;
 	}
 
+	void Init_Winpos(int _index)
+	{
+		Winpos.x = 3 + (_index - (_index / 11) * 11 - 1) * 4;
+		Winpos.y = _index / 11 + 2;
+	}
+
 	//필드의 상태를 바꿔준다.
 	void Changestate(int _state)
 	{
-		this->state = _state;//state가 바뀌었다고 해서 렌더되는 shape이 바뀌지는 않는다!
+		state = _state;//state가 바뀌었다고 해서 렌더되는 shape이 바뀌지는 않는다!
 
 		if (Isclicked == false) return; //클릭되지 않았으면 계속 Default 값이다.
 		switch (state)
@@ -71,8 +77,13 @@ public:
 		}
 	}
 
-	void Clicked();
-	void Init_Winpos(int _index);
+	void Clicked()
+	{
+		Isclicked = true;
+		Changestate(state);
+	}
+
+	
 	static void Set_Field(const int _size, const int _spot, Field* _fields);
 	static bool Check_OverLap_Seed(const int* _seeds, const int _seed);	
 	static void Compute_Near_Mine(const int _size, Field* _fields);

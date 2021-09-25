@@ -28,16 +28,8 @@ void Field::Set_Field(const int _size, const int _spot, Field* _fields)//매개변�
 
 }
 
-void Field::Init_Winpos(int _index)
-{
-	Winpos.x = 3 + (_index - (_index / 11) * 11 - 1) * 4;
-	Winpos.y = _index/11+1;
-}
 
-void Field::Clicked()
-{
-	Isclicked = true;
-}
+
 
 //randseed 중복 체크 함수: 검사할 값을 넣고 중복이 없으면 false를 반환한다.
 bool Field::Check_OverLap_Seed(const int* _seeds, const int _seed)

@@ -25,20 +25,24 @@ public:
 	{
 		Game2D::Update_UI(this->flag_count);
 
+		if (Game2D::IsMouseClicked)
+		{
+			for (int i = 0; i < 10*11; i++)
+			{
+				WindowPos fieldpos = fields[i].GetWinpos();//지역변수
+				/*Borland::gotoxy(0, 20);
+				printf("Clicked %d %d\n%d %d", fieldpos.x, fieldpos.y, ClickedPos.x, ClickedPos.y);
+				Borland::gotoxy(0, 1);*/
+				if (fieldpos.x == ClickedPos.x && fieldpos.y == ClickedPos.y)
+					fields[i].Clicked();
+			}
+		}
+
 		draw(pos, fields);
 
 		render();
 	}
 
-	void GetClickedField(MOUSE_EVENT_RECORD mer) override
-	{
-		for (int i = 0; i < this->GetSize(); i++)
-		{
-			WindowPos fieldpos = fields[i].GetWinpos();
-			if (fieldpos.x == mer.dwMousePosition.X && fieldpos.y == mer.dwMousePosition.Y)
-				fields[i].Clicked();
-		}
-	}
 	
 };
 

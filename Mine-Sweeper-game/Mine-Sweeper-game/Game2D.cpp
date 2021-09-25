@@ -4,6 +4,8 @@ static HANDLE hStdin;
 static DWORD fdwSaveOldMode;
 static char blankChars[80];
 static bool isLooping = true;
+WindowPos Game2D:: ClickedPos;
+bool Game2D::IsMouseClicked=false;
 
 void Game2D::Start_game()
 {
@@ -78,7 +80,9 @@ void Game2D::MouseEventProc(MOUSE_EVENT_RECORD mer)
 		if (mer.dwButtonState == FROM_LEFT_1ST_BUTTON_PRESSED)
 		{
 			printf("left button press %d %d\n", mer.dwMousePosition.X, mer.dwMousePosition.Y);
-			GetClickedField(mer);
+			ClickedPos.x = mer.dwMousePosition.X;
+			ClickedPos.y = mer.dwMousePosition.Y;//전역변수에 입력받은 pos 넘겨줌.
+			IsMouseClicked = true;
 		}
 		else if (mer.dwButtonState == RIGHTMOST_BUTTON_PRESSED)
 		{
