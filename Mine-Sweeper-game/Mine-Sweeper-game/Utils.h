@@ -12,7 +12,7 @@ struct Position
 	Position(int x = 0, int y = 0) :x(x), y(y) {}
 };
 
-typedef Position Coordinate;
+typedef Position WindowPos;
 
 class Borland 
 {

@@ -20,12 +20,16 @@ void Field::Set_Field(const int _size, const int _spot, Field* _fields)//매개변�
 
 	for (int index = 1; index < _size+1; index++)//배열 field 탐색
 	{
+		_fields[index - 1].Init_Winpos(index);
 		if (_fields[index - 1].GetState() == STATE_SPOT) continue;//지뢰 필드인 경우 탐색하지 않음.
 
 		_fields[index - 1].Changestate(STATE_NOTHING);//지뢰필드가 아닌 부분은 State 변경(to Nothing)
 	}
 
 }
+
+
+
 
 //randseed 중복 체크 함수: 검사할 값을 넣고 중복이 없으면 false를 반환한다.
 bool Field::Check_OverLap_Seed(const int* _seeds, const int _seed)
@@ -87,4 +91,6 @@ void Field::Compute_Near_Mine(const int _size,Field* _fields)
 	}
 	
 }
+
+
 
