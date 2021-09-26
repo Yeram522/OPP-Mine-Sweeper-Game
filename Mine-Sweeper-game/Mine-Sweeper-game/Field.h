@@ -67,7 +67,7 @@ public:
 			shape = static_cast<char>(STATE_SPOT);
 			break;
 		case STATE_NOTHING:
-			shape = static_cast<char>(STATE_NOTHING);//여기에 함수넣어서 숫자정보로 shape저장되게 하기.
+			shape = static_cast<char>(STATE_NOTHING);//숫자정보로 shape저장되게 하기.
 			break;
 		case STATE_FLAG:
 			shape = static_cast<char>(STATE_FLAG);
