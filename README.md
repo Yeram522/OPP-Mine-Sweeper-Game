@@ -1,2 +1,11 @@
-# -
-⭐21_가을_객체지향프로그래밍(2) 과제_🕹c++ 콘솔을 이용한 지뢰찾기 게임 모작
+# Mine-Sweeper-Game
+🌞 Used by : <img src="https://img.shields.io/badge/c++-00599C?style=flat-square&logo=c%2B%2B&logoColor=white"/> 
+
+📖 21년도 2학기 객체지향프로그래밍(2) 과제
+
+2021.09.20 ~ 2021.09.27
+
+📋 Project Board  [Go](https://github.com/Yeram522/OPP-Mine-Sweeper-Game/projects/1)
+
+🎬 YouTube Video [Go]()
+

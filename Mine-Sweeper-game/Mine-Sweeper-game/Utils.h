@@ -4,22 +4,21 @@
 #include <iostream>
 #include <Windows.h>
 
-//클래스와 구조체는 성격이 다르다.
-struct Position {
+struct Position 
+{
 	int x;
-	int y; //static변수는 선언과 정의를 동시에 할 수 없다.
+	int y; 
 
-	Position(int x = 0, int y = 0) :x(x), y(y) {}//Default 값이 매개변수에 있다.
+	Position(int x = 0, int y = 0) :x(x), y(y) {}
 };
 
-typedef Position Dimension;//이거무슨문법?
+typedef Position WindowPos;
 
-class Borland {
-
-public: //클래스->객체화->"변수화" :  Instantiation / 동적할당: 메모리상에 적재/ 클래스(설계도)와 오브젝트(변수화 되는 과정) object instance/ instance 서로다른 공간에 있느것.
+class Borland 
+{
+public:
 	static void initialize()
-	{  //static으로 정의된 함수는 "멤버함수"라고 말하지 않는다. 
-		//멤버: this라고 하는 포인터 변수에 접근 가능. static은 this라는 정보를 모른다.
+	{  
 		CONSOLE_CURSOR_INFO cci;
 		cci.dwSize = 25;
 		cci.bVisible = FALSE;
