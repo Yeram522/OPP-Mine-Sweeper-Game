@@ -15,8 +15,8 @@ public:
 		:Game2D(10,11),fields(new Field[11 * 10]), pos(0, 0),flag_count(0)
 	{
 		system("mode con cols=80 lines=25 | title Mine Swiper");
-		//flag_count = rand() % 11 + 10;//0~10-> (0+10)~(10+10) -> 10 ~20
-		flag_count = 5;//디버깅 때문에 5로 지정 해 놓음.
+		flag_count = rand() % 11 + 10;//0~10-> (0+10)~(10+10) -> 10 ~20
+		//flag_count = 5;//디버깅 때문에 5로 지정 해 놓음.
 		Field::Set_Field(11 * 10, flag_count, fields);
 		Field::Compute_Near_Mine(11 * 10, fields);
 	}

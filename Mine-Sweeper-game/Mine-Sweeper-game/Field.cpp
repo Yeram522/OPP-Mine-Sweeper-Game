@@ -50,21 +50,21 @@ void Field::Compute_Near_Mine(const int _size,Field* _fields)
 	//전체필드만큼 반복문을 돌리고,
 	//\n인 필드와 *지뢰 필드는 계산에서 제외한다.
 	//배열에 초과하는 필드는 거른다.
-	for (int index = 1; index < _size + 1; index++)//배열 field 탐색
+	for (int index = 1; index < _size + 1; index++)//배열 field 탐색: index가 1로 시작하는 이유는 with+1=11 을 이용해서 \n을 구별하기 위해서!
 	{
-		if (_fields[index-1].GetState() == STATE_SPOT || (index % 11==0 && index>=11)) continue;//지뢰 필드인 경우 탐색하지 않음.
+		if (_fields[index-1].GetState() == STATE_SPOT || (index % 11==0 && index>=11)) continue;//지뢰 필드인 경우 || \n필드는 탐색하지 않음.
 
 		for (int point = index - 1; point < index + 2; point++)// |i-1|i|i+1| i를 기준으로 둘레 탐색.
 		{
 			if (point % 11 == 0 && point>=11) continue;
 			
-			int up = point - 11 * (point / 11);//11은 width+1 나중에 바꿔줄거임. 보기 쉽게.
-			int down = point + 11 * (point / 11);//11은 width+1 나중에 바꿔줄거임. 보기 쉽게.
+			int up = point - 11;//11은 width+1 나중에 바꿔줄거임. 보기 쉽게.
+			int down = point + 11;//11은 width+1 나중에 바꿔줄거임. 보기 쉽게.
 
-			if (point < 11)
+			if (point < 11)//맨 상단의 배열은 윗부분에 배열이 없다.(예외처리)
 			{
 				up = 0;
-				down = point + 11 * (point / 11 + 1);
+				down = point + 11;
 			}
 			
 			//1~size 범위에 만족하고 필드에 지뢰가 있으면.
