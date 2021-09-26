@@ -132,6 +132,7 @@ void Game2D::ResizeEventProc(WINDOW_BUFFER_SIZE_RECORD wbsr)
 
 void Game2D::run()
 {
+	bool isClear = false;
 	DWORD cNumRead, fdwMode, i;
 	INPUT_RECORD irInBuf[128];
 
@@ -165,6 +166,14 @@ void Game2D::run()
 
 	//게임 루프 스타트!!
 	while (*isLooping) {
+		if (gameclear())
+		{
+			Borland::gotoxy(44, 9);
+			printf("★★★CLEAR★★★");
+			isClear = true;
+			break;
+		}
+
 		clear();
 
 		if (GetNumberOfConsoleInputEvents(hStdin, &cNumRead)) {
@@ -217,7 +226,10 @@ void Game2D::run()
 
 	}
 
+	if (isClear) return;
+	
 	Borland::gotoxy(44, 9);
+	
 	printf("★Game-Over★");
 	return;
 }

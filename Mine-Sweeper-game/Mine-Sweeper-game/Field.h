@@ -4,7 +4,7 @@
 enum fieldstate
 {
 	//ASCII CODE
-	STATE_DEFUALT= 81, //['_'] 0 : 아직 오픈 되지 않은 필드(기본 랜더 셰입)
+	STATE_DEFUALT= 45, //['_'] 0 : 아직 오픈 되지 않은 필드(기본 랜더 셰입)
 	STATE_SPOT= 42, //['*'] 1 : 지뢰가 존재하는 필드(마우스 클릭 혹은 gameover 되었을 때 보여줌)
 	STATE_NOTHING= 48, //['0'] 2: 아무것도 없는 필드(주변 spot 개수가 0일때)
 	STATE_FLAG= 70, //['F'] 3: 깃발이 꽃혀있는 필드(마우스 클릭하면 생성 가능)
@@ -37,6 +37,11 @@ public:
 	int GetState()
 	{
 		return state;
+	}
+
+	bool GetIsClicked()
+	{
+		return Isclicked;
 	}
 
 	WindowPos GetWinpos()

@@ -32,9 +32,6 @@ public:
 			for (int i = 0; i < 10*11; i++)
 			{
 				WindowPos fieldpos = fields[i].GetWinpos();//지역변수
-				/*Borland::gotoxy(0, 20);
-				printf("Clicked %d %d\n%d %d", fieldpos.x, fieldpos.y, ClickedPos.x, ClickedPos.y);
-				Borland::gotoxy(0, 1);*/
 				if (fieldpos.x == ClickedPos.x && fieldpos.y == ClickedPos.y)
 				{
 					fields[i].Clicked();
@@ -48,7 +45,17 @@ public:
 		render();
 	}
 
+	bool gameclear() override //게임 클리어 조건에 충족했는지 검사한다.
+	{
+		int sum = 0;
+		for (int i = 1; i < 10 * 11+1; i++)
+			if (i%11!=0 && fields[i-1].GetIsClicked() == false) sum++;
+
+		if (flag_count != sum) return false;
+		*isLooping = false;
+		return true;
 	
+	}
 };
 
 int main()

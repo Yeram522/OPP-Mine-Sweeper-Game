@@ -117,4 +117,6 @@ public:
 		//render();
 	}
 
+	virtual bool gameclear() { return false; }
+
 };
