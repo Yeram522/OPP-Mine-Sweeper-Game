@@ -1,6 +1,4 @@
-﻿  Field.cpp
-  main.cpp
-D:\1_2021\2021-Univ-Fall-Term\03.객체지향프로그래밍(2)\02.과제\OPP-Mine-Sweeper-Game\Mine-Sweeper-game\Mine-Sweeper-game\main.cpp(51,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-  Generating Code...
+﻿  main.cpp
+D:\1_2021\2021-Univ-Fall-Term\03.객체지향프로그래밍(2)\02.과제\OPP-Mine-Sweeper-Game\Mine-Sweeper-game\Mine-Sweeper-game\main.cpp(61,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
   Game2D.cpp
   Mine-Sweeper-game.vcxproj -> D:\1_2021\2021-Univ-Fall-Term\03.객체지향프로그래밍(2)\02.과제\OPP-Mine-Sweeper-Game\Mine-Sweeper-game\Debug\Mine-Sweeper-game.exe

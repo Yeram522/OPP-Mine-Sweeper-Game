@@ -3,7 +3,7 @@
 static HANDLE hStdin;
 static DWORD fdwSaveOldMode;
 static char blankChars[80];
-static bool isLooping = true;
+bool *isLooping;
 WindowPos Game2D:: ClickedPos;
 bool Game2D::IsMouseClicked=false;
 
@@ -36,7 +36,7 @@ void Game2D::ErrorExit(const char* lpszMessage)
 
 void Game2D::KeyEventProc(KEY_EVENT_RECORD ker)
 {
-	Borland::gotoxy(0, 11);
+	Borland::gotoxy(0, 12);
 	printf("%s\r", blankChars);
 	switch (ker.wVirtualKeyCode) {
 	case VK_LBUTTON:
@@ -50,7 +50,7 @@ void Game2D::KeyEventProc(KEY_EVENT_RECORD ker)
 		break;
 	case VK_ESCAPE:
 		printf("escape key");
-		isLooping = false;
+		*isLooping = false;
 		break;
 	case VK_UP:
 		printf("arrow up");
@@ -155,8 +155,7 @@ void Game2D::run()
 
 
 	//게임 루프 스타트!!
-	while (isLooping) {
-		
+	while (*isLooping) {
 		clear();
 
 		if (GetNumberOfConsoleInputEvents(hStdin, &cNumRead)) {
@@ -203,13 +202,16 @@ void Game2D::run()
 			Borland::gotoxy(0, 0);
 		}
 
-
 		update();
 
 		Sleep(100);
 
 	}
+	//printf("\nGame Over\n");
+	return;
+}
 
-	printf("\nGame Over\n");
-
+void Game2D::exit()
+{
+	*isLooping = false;
 }

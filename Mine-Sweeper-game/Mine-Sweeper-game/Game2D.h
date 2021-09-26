@@ -13,6 +13,8 @@
 #include "Utils.h"
 #include "Field.h"
 
+
+
 class Game2D
 {
 private:
@@ -28,6 +30,8 @@ public:
 	Game2D(int width = 10, int height = 10)
 		: width(width), height(height), canvas(new char[(width + 1) * height])
 	{
+		
+
 		bool faultyInput = false;
 		if (this->width <= 0) {
 			this->width = 10;
@@ -46,7 +50,8 @@ public:
 
 	virtual ~Game2D()
 	{
-		delete[] canvas;
+		Borland::gotoxy(0, 13);
+		//delete[] canvas;
 		canvas = nullptr;
 		width = 0; height = 0;
 	}
@@ -93,6 +98,7 @@ public:
 	static void Start_game();
 
 	static void Update_UI(const int _time);
+	static void exit();//while문을 종료한다.
 	//--------------------------------------------------------------
 	//
 	//About KeyBoard and Mouse Input--------------------------------
@@ -112,8 +118,4 @@ public:
 		//render();
 	}
 
-	virtual void GetClickedField(MOUSE_EVENT_RECORD mer)
-	{ 	
-	  //클릭되었을때 처리
-	}
 };
