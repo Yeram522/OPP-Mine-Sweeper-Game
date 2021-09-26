@@ -1,6 +1,4 @@
 #pragma once
-#include <iostream>
-#include <Windows.h>
 #include "Utils.h"
 
 enum fieldstate

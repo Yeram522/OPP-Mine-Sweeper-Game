@@ -4,8 +4,6 @@
 
 #include "Game2D.h"
 
-extern bool* isLooping;
-
 class MineSweeperGame :public Game2D
 {
 public:
@@ -55,12 +53,6 @@ public:
 
 int main()
 {
-	isLooping = new bool;
-	*isLooping = true;
-
-	srand(time(NULL));
-
-	
 	MineSweeperGame().run();
 	
 	return 0;

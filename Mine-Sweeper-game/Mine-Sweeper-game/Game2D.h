@@ -3,17 +3,14 @@
 #endif
 #pragma once
 
-#include <iostream>
 #include <conio.h> // console io
 #include <cstring> // string.h
 #include <cstdlib> // stdlib.h
-#include <string> // c++ string class
-#include <Windows.h>
-#include <time.h>  
+#include <string> // c++ string class 
 #include "Utils.h"
 #include "Field.h"
 
-
+extern bool* isLooping;
 
 class Game2D
 {
@@ -31,6 +28,8 @@ public:
 		: width(width), height(height), canvas(new char[(width + 1) * height])
 	{
 		
+		isLooping = new bool;
+		*isLooping = true;
 
 		bool faultyInput = false;
 		if (this->width <= 0) {

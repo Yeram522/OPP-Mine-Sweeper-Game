@@ -13,14 +13,23 @@ void Game2D::Start_game()
 }
 
 //맨 상단 윗줄의 UI를 업데이트 한다.
-void Game2D::Update_UI(const int _time)
+void Game2D::Update_UI(const int _count)
 {
 	Borland::gotoxy(0, 0);
-	printf("▤▤▤▤▤  Flag: %d || Time: %d  ▤▤▤▤▤\n", _time, 0);
+	printf("▤▤▤▤▤▤▤    ★ : %d   ▤▤▤▤▤▤▤\n", _count);
 	printf("-------------------------------------------");
 
-	Borland::gotoxy(45, 3);
+	Borland::gotoxy(44, 2);
 	printf("How To Game\n");
+	Borland::gotoxy(44, 3);
+	printf("-------------\n");
+	Borland::gotoxy(44, 4);
+	printf("Click Mine → GameOver\n");
+	Borland::gotoxy(44, 5);
+	printf("LeftMouseClick → Open the button.\n");
+	Borland::gotoxy(44, 6);
+	printf("ESC → End the game\n");
+	
 }
 
 void Game2D::ErrorExit(const char* lpszMessage)
@@ -207,7 +216,9 @@ void Game2D::run()
 		Sleep(100);
 
 	}
-	//printf("\nGame Over\n");
+
+	Borland::gotoxy(44, 9);
+	printf("★Game-Over★");
 	return;
 }
 
