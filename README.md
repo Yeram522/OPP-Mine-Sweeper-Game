@@ -39,7 +39,7 @@ main.cpp 및 main()함수를 최대한 깔끔하게 만들기 위해서, 게임�
 
 \4. 동적할당으로 변수를 사용 할 때 초기화로 정해진  크기보다 초과하여 메모리가 담기면 , 나중에 delte로 해제할 때 다른 메모리의 부분까지 해제하려 하기 때문에, 힙 충돌 오류가 생긴다. <span style = "color :Green">ISSUE</span> [#11](https://github.com/Yeram522/OPP-Mine-Sweeper-Game/issues/11)
 
-\5. static 전역변수는 선언된 파일 내부에서만 전역으로 사용 된다. 외부 파일에서 불러오는 것은 불가능하다<span style = "color :Green">              Pull</span>[#12](https://github.com/Yeram522/OPP-Mine-Sweeper-Game/pull/12)
+\5. static 전역변수는 선언된 파일 내부에서만 전역으로 사용 된다. 외부 파일에서 불러오는 것은 불가능하다. Pull [#12](https://github.com/Yeram522/OPP-Mine-Sweeper-Game/pull/12)
 
 
 
