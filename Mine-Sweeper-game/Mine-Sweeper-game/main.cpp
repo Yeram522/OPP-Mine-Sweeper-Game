@@ -60,6 +60,7 @@ public:
 
 int main()
 {
+	srand(time(NULL));
 	MineSweeperGame().run();
 	
 	return 0;
