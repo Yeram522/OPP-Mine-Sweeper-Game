@@ -13,7 +13,7 @@
 
 extern bool* isLooping;
 
-class Game2D
+class Game2D//마우스입력 및 루프, 캔버스/UI를 관리하는 부모 클래스이다.
 {
 private:
 	int width;
@@ -95,9 +95,7 @@ public:
 	//--------------------------------------------------------------
 
 	//About Game Logic/Init-----------------------------------------
-	static void Start_game();
-
-	static void Update_UI(const int _time);
+	static void Update_UI(const int _time);//콘솔 맨 윗줄 UI를 업데이트한다.
 	static void exit();//while문을 종료한다.
 	//--------------------------------------------------------------
 	//
