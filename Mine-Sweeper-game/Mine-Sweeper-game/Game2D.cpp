@@ -7,10 +7,6 @@ bool *isLooping;
 WindowPos Game2D:: ClickedPos;
 bool Game2D::IsMouseClicked=false;
 
-void Game2D::Start_game()
-{
-	//첫번째 클릭이 시작되면 시간이 흐른다.
-}
 
 //맨 상단 윗줄의 UI를 업데이트 한다.
 void Game2D::Update_UI(const int _count)
@@ -32,6 +28,7 @@ void Game2D::Update_UI(const int _count)
 	
 }
 
+//마이크로소프트 제공 함수----------------------------------(약간 수정한 것도 있다.)
 void Game2D::ErrorExit(const char* lpszMessage)
 {
 	fprintf(stderr, "%s\n", lpszMessage);
@@ -129,10 +126,13 @@ void Game2D::ResizeEventProc(WINDOW_BUFFER_SIZE_RECORD wbsr)
 	printf("Console screen buffer is %d columns by %d rows.\n", wbsr.dwSize.X, wbsr.dwSize.Y);
 	Borland::gotoxy(0, 0);
 }
+//---------------------------------------------------------
 
-void Game2D::run()
+
+void Game2D::run()//자식게임클래스를 실행하는 함수이고 while문을 포함한다.
 {
 	bool isClear = false;
+	//키 입력 변수-------------
 	DWORD cNumRead, fdwMode, i;
 	INPUT_RECORD irInBuf[128];
 
@@ -220,7 +220,7 @@ void Game2D::run()
 			Borland::gotoxy(0, 0);
 		}
 
-		update();
+		update();//자식클래스에서 이 함수를 오버라이드 하여 사용한다!
 
 		Sleep(100);
 

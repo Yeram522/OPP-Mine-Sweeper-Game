@@ -1,7 +1,7 @@
 #include "Field.h"
 
 //초기 지뢰를 배치한다.한번만 실행된다.
-void Field::Set_Field(const int _size, const int _spot, Field* _fields)//매개변수: 랜덤 지뢰개수.
+void Field::Set_Field(const int _size, const int _spot, Field* _fields)
 {
 	int placed_count = _spot;
 	int* seeds = new int[_size]; //랜덤값 중복 방지를 위해 값 저장.
@@ -29,8 +29,6 @@ void Field::Set_Field(const int _size, const int _spot, Field* _fields)//매개변�
 }
 
 
-
-
 //randseed 중복 체크 함수: 검사할 값을 넣고 중복이 없으면 false를 반환한다.
 bool Field::Check_OverLap_Seed(const int* _seeds, const int _seed)
 {
@@ -44,7 +42,7 @@ bool Field::Check_OverLap_Seed(const int* _seeds, const int _seed)
 	return false;
 }
 
-//근처에 있는 지뢰 개수를 계산한다.->*********코드 정리 필요********
+//근처에 있는 지뢰 개수를 계산한다.
 void Field::Compute_Near_Mine(const int _size,Field* _fields)
 {
 	//전체필드만큼 반복문을 돌리고,
@@ -58,8 +56,8 @@ void Field::Compute_Near_Mine(const int _size,Field* _fields)
 		{
 			if (point % 11 == 0 && point>=11) continue;
 			
-			int up = point - 11;//11은 width+1 나중에 바꿔줄거임. 보기 쉽게.
-			int down = point + 11;//11은 width+1 나중에 바꿔줄거임. 보기 쉽게.
+			int up = point - 11;
+			int down = point + 11;
 
 			if (point < 11)//맨 상단의 배열은 윗부분에 배열이 없다.(예외처리)
 			{
@@ -68,7 +66,7 @@ void Field::Compute_Near_Mine(const int _size,Field* _fields)
 			}
 			
 			//1~size 범위에 만족하고 필드에 지뢰가 있으면.
-			if (up >= 1 && up < _size-11)
+			if (up >= 1 && up < _size-11)//선택 필드의 윗쪽을 검사
 			{
 				if (_fields[up - 1].GetState() == STATE_SPOT)
 				{
@@ -77,7 +75,7 @@ void Field::Compute_Near_Mine(const int _size,Field* _fields)
 				}
 			}
 			
-			if (down >= 12  && down < _size)
+			if (down >= 12  && down < _size)//선택 필드의 아래쪽을 검사
 			{
 				if (_fields[down - 1].GetState() == STATE_SPOT)
 				{
@@ -85,7 +83,7 @@ void Field::Compute_Near_Mine(const int _size,Field* _fields)
 				}
 			}
 
-			if(_fields[point-1].GetState() == STATE_SPOT && point != index) 
+			if(_fields[point-1].GetState() == STATE_SPOT && point != index) //선택필드의 양쪽 검사.
 				_fields[index - 1].Changestate(_fields[index - 1].GetState() + 1);
 		}
 	}

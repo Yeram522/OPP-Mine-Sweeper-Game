@@ -4,7 +4,7 @@
 
 #include "Game2D.h"
 
-class MineSweeperGame :public Game2D
+class MineSweeperGame :public Game2D//Game2D기능을 상속받은 지뢰게임 클래스
 {
 public:
 	Field* fields;
@@ -15,19 +15,19 @@ public:
 		:Game2D(10,11),fields(new Field[11 * 10]), pos(0, 0),flag_count(0)
 	{
 		system("mode con cols=80 lines=25 | title Mine Swiper");
-		flag_count = rand() % 11 + 10;//0~10-> (0+10)~(10+10) -> 10 ~20
-		Field::Set_Field(11 * 10, flag_count, fields);
-		Field::Compute_Near_Mine(11 * 10, fields);
+		flag_count = rand() % 11 + 10;//생성될 지뢰의 개수 랜덤 값
+		Field::Set_Field(11 * 10, flag_count, fields);//지뢰를 랜덤 위치에 심는다.
+		Field::Compute_Near_Mine(11 * 10, fields);//근처 지뢰 개수를 계산해서 필드에 값을 넣는다.
 	}
 
 	~MineSweeperGame()
 	{ }
 
-	void update() override
+	void update() override//Game2D의 update함수를 오버라이드 하였다.
 	{
 		Game2D::Update_UI(this->flag_count);
 
-		if (Game2D::IsMouseClicked)
+		if (Game2D::IsMouseClicked)//마우스입력이 감지되면 마우스위치 값과 지뢰필드값을 비교하여 이벤트처리를 한다.
 		{
 			for (int i = 0; i < 10*11; i++)
 			{
@@ -36,6 +36,7 @@ public:
 				{
 					fields[i].Clicked();
 					if (fields[i].GetState() == STATE_SPOT) *isLooping = false;
+					//지뢰를 클릭했다면 게임오버가 된다.
 				}
 			}
 		}
@@ -60,6 +61,7 @@ public:
 
 int main()
 {
+	srand(time(NULL));
 	MineSweeperGame().run();
 	
 	return 0;
