@@ -47,7 +47,7 @@ main.cpp 및 main()함수를 최대한 깔끔하게 만들기 위해서, 게임�
 
 >  📋 Project Board  [Go](https://github.com/Yeram522/OPP-Mine-Sweeper-Game/projects/1)
 >
-> 🎬 YouTube Video [Go]()
+> 🎬 YouTube Video [Go](https://youtu.be/WaYQddyK2sM)
 
 
 
