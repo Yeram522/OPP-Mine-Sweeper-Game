@@ -10,8 +10,36 @@
 #include <time.h>
 #include "Field.h"
 
+class Game2D;
+class Input;
 
 extern bool* isLooping;
+
+class Input
+{
+static HANDLE hStdin;
+static DWORD fdwSaveOldMode;
+static char blankChars[80];
+static DWORD cNumRead, fdwMode;
+static INPUT_RECORD irInBuf[128];
+
+
+
+public:
+	static WindowPos ClickedPos;
+	
+	//About KeyBoard and Mouse Input--------------------------------
+	static void ErrorExit(const char*);
+	static void Intialize();
+	static void ReadInput();
+	static void KeyEventProc(KEY_EVENT_RECORD);
+	static void MouseEventProc(MOUSE_EVENT_RECORD);
+	static void ResizeEventProc(WINDOW_BUFFER_SIZE_RECORD);
+	//--------------------------------------------------------------
+	static bool GetLeftMouseClick(DWORD eventflag);
+
+	
+};
 
 class Game2D//마우스입력 및 루프, 캔버스/UI를 관리하는 부모 클래스이다.
 {
@@ -22,7 +50,7 @@ private:
 	char* canvas;
 
 public:
-	static WindowPos ClickedPos;
+	
 	static bool IsMouseClicked;
 
 	Game2D(int width = 10, int height = 10)
@@ -99,12 +127,7 @@ public:
 	static void exit();//while문을 종료한다.
 	//--------------------------------------------------------------
 	//
-	//About KeyBoard and Mouse Input--------------------------------
-	static void ErrorExit(const char*);
-	static void KeyEventProc(KEY_EVENT_RECORD);
-	static void MouseEventProc(MOUSE_EVENT_RECORD);
-	static void ResizeEventProc(WINDOW_BUFFER_SIZE_RECORD);
-	//--------------------------------------------------------------
+	
 	// 
 	//Can Override in Sibling Class----------------------------------
 	void run();

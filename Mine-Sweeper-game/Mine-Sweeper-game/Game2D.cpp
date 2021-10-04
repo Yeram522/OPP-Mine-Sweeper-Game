@@ -1,13 +1,17 @@
 #include "Game2D.h"
-
-static HANDLE hStdin;
-static DWORD fdwSaveOldMode;
-static char blankChars[80];
+//-----------이동완
+HANDLE Input::hStdin;
+DWORD Input::fdwSaveOldMode;
+char Input::blankChars[80];
+DWORD Input::cNumRead;
+DWORD Input::fdwMode;
+INPUT_RECORD Input::irInBuf[128];
 bool *isLooping;
-WindowPos Game2D:: ClickedPos;
-bool Game2D::IsMouseClicked=false;
-
-
+WindowPos Input:: ClickedPos;
+//-------------
+// 
+// 
+// 
 //맨 상단 윗줄의 UI를 업데이트 한다.
 void Game2D::Update_UI(const int _count)
 {
@@ -28,8 +32,101 @@ void Game2D::Update_UI(const int _count)
 	
 }
 
+void Input::Intialize()//Input Initialize
+{
+	memset(blankChars, ' ', 80);
+	blankChars[79] = '\0';
+
+	// Get the standard input handle.
+
+	hStdin = GetStdHandle(STD_INPUT_HANDLE);
+	if (hStdin == INVALID_HANDLE_VALUE)
+		ErrorExit("GetStdHandle");
+	if (!GetConsoleMode(hStdin, &fdwSaveOldMode))
+		ErrorExit("GetConsoleMode");
+	/*
+		   Step-1:
+		   Disable 'Quick Edit Mode' option programmatically
+	 */
+	fdwMode = ENABLE_EXTENDED_FLAGS;
+	if (!SetConsoleMode(hStdin, fdwMode))
+		ErrorExit("SetConsoleMode");
+	/*
+	   Step-2:
+	   Enable the window and mouse input events,
+	   after you have already applied that 'ENABLE_EXTENDED_FLAGS'
+	   to disable 'Quick Edit Mode'
+	*/
+	fdwMode = ENABLE_WINDOW_INPUT | ENABLE_MOUSE_INPUT;
+	if (!SetConsoleMode(hStdin, fdwMode))
+		ErrorExit("SetConsoleMode");
+}
+
+void Input::ReadInput()
+{
+	if (!GetNumberOfConsoleInputEvents(hStdin, &cNumRead))
+	{
+		cNumRead = 0;
+		return;
+	}
+	Borland::gotoxy(0, 14);
+	printf("number of inputs %d\n", cNumRead);
+
+	if (cNumRead == 0) return;
+
+	if (!ReadConsoleInput(
+		hStdin,      // input buffer handle
+		irInBuf,     // buffer to read into
+		128,         // size of read buffer
+		&cNumRead)) // number of records read
+		ErrorExit("ReadConsoleInput");
+		// Dispatch the events to the appropriate handler.
+
+	for (int i = 0; i < cNumRead; i++)
+	{
+		switch (irInBuf[i].EventType)
+		{
+		case KEY_EVENT: // keyboard input
+			KeyEventProc(irInBuf[i].Event.KeyEvent);
+			break;
+
+		case MOUSE_EVENT: // mouse input
+			MouseEventProc(irInBuf[i].Event.MouseEvent);
+			break;
+
+		case WINDOW_BUFFER_SIZE_EVENT: // scrn buf. resizing
+			ResizeEventProc(irInBuf[i].Event.WindowBufferSizeEvent);
+			break;
+
+		case FOCUS_EVENT:  // disregard focus events
+
+		case MENU_EVENT:   // disregard menu events
+			break;
+
+		default:
+			ErrorExit("Unknown event type");
+			break;
+		}
+	}
+
+	Borland::gotoxy(0, 0);
+
+}
+
+bool Input::GetLeftMouseClick(DWORD eventflag)
+{
+	if (cNumRead == 0) return false;
+
+	for (int i = 0; i < cNumRead; i++)
+	{
+		if (irInBuf[i].EventType != MOUSE_EVENT) continue;
+
+		if (irInBuf[i].Event.MouseEvent.dwEventFlags == eventflag)
+			return true;
+	}
+}
 //마이크로소프트 제공 함수----------------------------------(약간 수정한 것도 있다.)
-void Game2D::ErrorExit(const char* lpszMessage)
+void Input::ErrorExit(const char* lpszMessage)
 {
 	fprintf(stderr, "%s\n", lpszMessage);
 
@@ -40,7 +137,7 @@ void Game2D::ErrorExit(const char* lpszMessage)
 	ExitProcess(0);
 }
 
-void Game2D::KeyEventProc(KEY_EVENT_RECORD ker)
+void Input::KeyEventProc(KEY_EVENT_RECORD ker)
 {
 	Borland::gotoxy(0, 12);
 	printf("%s\r", blankChars);
@@ -71,7 +168,7 @@ void Game2D::KeyEventProc(KEY_EVENT_RECORD ker)
 	Borland::gotoxy(0, 0);
 }
 
-void Game2D::MouseEventProc(MOUSE_EVENT_RECORD mer)
+void Input::MouseEventProc(MOUSE_EVENT_RECORD mer)
 {
 	Borland::gotoxy(0, 12);
 	printf("%s\r", blankChars);
@@ -88,7 +185,6 @@ void Game2D::MouseEventProc(MOUSE_EVENT_RECORD mer)
 			printf("left button press %d %d\n", mer.dwMousePosition.X, mer.dwMousePosition.Y);
 			ClickedPos.x = mer.dwMousePosition.X;
 			ClickedPos.y = mer.dwMousePosition.Y;//전역변수에 입력받은 pos 넘겨줌.
-			IsMouseClicked = true;
 		}
 		else if (mer.dwButtonState == RIGHTMOST_BUTTON_PRESSED)
 		{
@@ -118,7 +214,7 @@ void Game2D::MouseEventProc(MOUSE_EVENT_RECORD mer)
 	Borland::gotoxy(0, 0);
 }
 
-void Game2D::ResizeEventProc(WINDOW_BUFFER_SIZE_RECORD wbsr)
+void Input::ResizeEventProc(WINDOW_BUFFER_SIZE_RECORD wbsr)
 {
 	Borland::gotoxy(0, 13);
 	printf("%s\r", blankChars);
@@ -133,36 +229,8 @@ void Game2D::run()//자식게임클래스를 실행하는 함수이고 while문을 포함한다.
 {
 	bool isClear = false;
 	//키 입력 변수-------------
-	DWORD cNumRead, fdwMode, i;
-	INPUT_RECORD irInBuf[128];
-
-	memset(blankChars, ' ', 80);
-	blankChars[79] = '\0';
-
-	// Get the standard input handle.
-
-	hStdin = GetStdHandle(STD_INPUT_HANDLE);
-	if (hStdin == INVALID_HANDLE_VALUE)
-		ErrorExit("GetStdHandle");
-	if (!GetConsoleMode(hStdin, &fdwSaveOldMode))
-		ErrorExit("GetConsoleMode");
-	/*
-		   Step-1:
-		   Disable 'Quick Edit Mode' option programmatically
-	 */
-	fdwMode = ENABLE_EXTENDED_FLAGS;
-	if (!SetConsoleMode(hStdin, fdwMode))
-		ErrorExit("SetConsoleMode");
-	/*
-	   Step-2:
-	   Enable the window and mouse input events,
-	   after you have already applied that 'ENABLE_EXTENDED_FLAGS'
-	   to disable 'Quick Edit Mode'
-	*/
-	fdwMode = ENABLE_WINDOW_INPUT | ENABLE_MOUSE_INPUT;
-	if (!SetConsoleMode(hStdin, fdwMode))
-		ErrorExit("SetConsoleMode");
-
+	
+	Input::Intialize();
 
 	//게임 루프 스타트!!
 	while (*isLooping) {
@@ -176,49 +244,7 @@ void Game2D::run()//자식게임클래스를 실행하는 함수이고 while문을 포함한다.
 
 		clear();
 
-		if (GetNumberOfConsoleInputEvents(hStdin, &cNumRead)) {
-			Borland::gotoxy(0, 14);
-			printf("number of inputs %d\n", cNumRead);
-
-			if (cNumRead > 0) {
-
-				if (!ReadConsoleInput(
-					hStdin,      // input buffer handle
-					irInBuf,     // buffer to read into
-					128,         // size of read buffer
-					&cNumRead)) // number of records read
-					ErrorExit("ReadConsoleInput");
-				// Dispatch the events to the appropriate handler.
-
-				for (i = 0; i < cNumRead; i++)
-				{
-					switch (irInBuf[i].EventType)
-					{
-					case KEY_EVENT: // keyboard input
-						KeyEventProc(irInBuf[i].Event.KeyEvent);
-						break;
-
-					case MOUSE_EVENT: // mouse input
-						MouseEventProc(irInBuf[i].Event.MouseEvent);
-						break;
-
-					case WINDOW_BUFFER_SIZE_EVENT: // scrn buf. resizing
-						ResizeEventProc(irInBuf[i].Event.WindowBufferSizeEvent);
-						break;
-
-					case FOCUS_EVENT:  // disregard focus events
-
-					case MENU_EVENT:   // disregard menu events
-						break;
-
-					default:
-						ErrorExit("Unknown event type");
-						break;
-					}
-				}
-			}
-			Borland::gotoxy(0, 0);
-		}
+		Input::ReadInput();
 
 		update();//자식클래스에서 이 함수를 오버라이드 하여 사용한다!
 

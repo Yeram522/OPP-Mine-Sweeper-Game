@@ -27,12 +27,13 @@ public:
 	{
 		Game2D::Update_UI(this->flag_count);
 
-		if (Game2D::IsMouseClicked)//마우스입력이 감지되면 마우스위치 값과 지뢰필드값을 비교하여 이벤트처리를 한다.
+
+		if (Input::GetLeftMouseClick(FROM_LEFT_1ST_BUTTON_PRESSED))//마우스입력이 감지되면 마우스위치 값과 지뢰필드값을 비교하여 이벤트처리를 한다.
 		{
 			for (int i = 0; i < 10*11; i++)
 			{
 				WindowPos fieldpos = fields[i].GetWinpos();//지역변수
-				if (fieldpos.x == ClickedPos.x && fieldpos.y == ClickedPos.y)
+				if (fieldpos.x == Input::ClickedPos.x && fieldpos.y == Input::ClickedPos.y)
 				{
 					fields[i].Clicked();
 					if (fields[i].GetState() == STATE_SPOT) *isLooping = false;
