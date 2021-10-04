@@ -1,7 +1,7 @@
 # 🕹Mine-Sweeper-Game💣💥
 🌞 Used by : <img src="https://img.shields.io/badge/c++-00599C?style=flat-square&logo=c%2B%2B&logoColor=white"/> 
 
-This branch has developed after submit the assignment.
+This branch has developed after submited the assignment.
 
 ✅  [과제제출 Branch](https://github.com/Yeram522/OPP-Mine-Sweeper-Game/tree/%E2%9C%94submit)
 
