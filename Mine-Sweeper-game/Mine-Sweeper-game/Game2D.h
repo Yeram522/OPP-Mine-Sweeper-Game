@@ -17,21 +17,66 @@ extern bool* isLooping;
 
 class Input
 {
-	HANDLE hStdin;
-    DWORD fdwSaveOldMode;
-    char blankChars[80];
-	DWORD cNumRead;
-	DWORD fdwMode;
-    INPUT_RECORD irInBuf[128];
+   HANDLE hStdin;
+   DWORD fdwSaveOldMode;
+   char blankChars[80];
+   DWORD cNumRead, fdwMode;
+   INPUT_RECORD irInBuf[128];
 
-	void ErrorExit(const char*);
-	void KeyEventProc(KEY_EVENT_RECORD);
-	void MouseEventProc(MOUSE_EVENT_RECORD);
-	void ResizeEventProc(WINDOW_BUFFER_SIZE_RECORD);
+   void ErrorExit(const char*);
+   void KeyEventProc(KEY_EVENT_RECORD);
+   void MouseEventProc(MOUSE_EVENT_RECORD);
+   void ResizeEventProc(WINDOW_BUFFER_SIZE_RECORD);
 
-	static Input* Instance;//1개의 static instace만 존재한다.
+   static Input* Instance;
 
-	Input()
+   Input()
+   {
+	memset(blankChars, ' ', 80);
+	blankChars[79] = '\0';
+
+	// Get the standard input handle.
+
+	hStdin = GetStdHandle(STD_INPUT_HANDLE);
+	if (hStdin == INVALID_HANDLE_VALUE)
+		ErrorExit("GetStdHandle");
+	if (!GetConsoleMode(hStdin, &fdwSaveOldMode))
+		ErrorExit("GetConsoleMode");
+	/*
+		   Step-1:
+		   Disable 'Quick Edit Mode' option programmatically
+	 */
+	fdwMode = ENABLE_EXTENDED_FLAGS;
+	if (!SetConsoleMode(hStdin, fdwMode))
+		ErrorExit("SetConsoleMode");
+	/*
+	   Step-2:
+	   Enable the window and mouse input events,
+	   after you have already applied that 'ENABLE_EXTENDED_FLAGS'
+	   to disable 'Quick Edit Mode'
+	*/
+	fdwMode = ENABLE_WINDOW_INPUT | ENABLE_MOUSE_INPUT;
+	if (!SetConsoleMode(hStdin, fdwMode))
+		ErrorExit("SetConsoleMode");
+   }
+
+   ~Input()
+   {
+	SetConsoleMode(hStdin, fdwSaveOldMode);
+   }
+public:
+	static WindowPos ClickedPos;
+	
+	static Input* GetInstance()
+	{
+		if (Instance == nullptr) {
+			Instance = new Input();
+		}
+		//Instance = new Input();
+		return Instance;
+	}
+	
+	void Intialize()
 	{
 		memset(blankChars, ' ', 80);
 		blankChars[79] = '\0';
@@ -61,23 +106,6 @@ class Input
 			ErrorExit("SetConsoleMode");
 	}
 
-	~Input()
-	{
-		SetConsoleMode(hStdin, fdwSaveOldMode);
-	}
-
-public:
-	static WindowPos ClickedPos;
-	static bool IsMouseClicked;
-
-	static Input* GetInstance()
-	{
-		if (Instance == nullptr)
-		{
-			Instance = new Input();//instace가 없다면 새로 만든다.
-		}
-		return Instance;
-	}
 
 	void ReadInput()
 	{
@@ -86,11 +114,10 @@ public:
 			cNumRead = 0;
 			return;
 		}
-
-		if (cNumRead == 0) return;
-
 		Borland::gotoxy(0, 14);
 		printf("number of inputs %d\n", cNumRead);
+
+		if (cNumRead == 0) return;
 
 		if (!ReadConsoleInput(
 			hStdin,      // input buffer handle
@@ -100,7 +127,6 @@ public:
 			ErrorExit("ReadConsoleInput");
 		// Dispatch the events to the appropriate handler.
 
-#ifdef NOT_COMPILE
 		for (int i = 0; i < cNumRead; i++)
 		{
 			switch (irInBuf[i].EventType)
@@ -117,17 +143,36 @@ public:
 				ResizeEventProc(irInBuf[i].Event.WindowBufferSizeEvent);
 				break;
 
+			case FOCUS_EVENT:  // disregard focus events
+
+			case MENU_EVENT:   // disregard menu events
+				break;
+
 			default:
 				ErrorExit("Unknown event type");
 				break;
 			}
 		}
-#endif
-		Borland::gotoxy(0, 0);
 
+		Borland::gotoxy(0, 0);
+	}
+	
+	//--------------------------------------------------------------
+	bool GetLeftMouseClick(DWORD eventflag)
+	{
+		{
+			if (cNumRead == 0) return false;
+
+			for (int i = 0; i < cNumRead; i++)
+			{
+				if (irInBuf[i].EventType != MOUSE_EVENT) continue;
+
+				if (irInBuf[i].Event.MouseEvent.dwEventFlags == eventflag)
+					return true;
+			}
+		}
 	}
 
-	bool GetLeftMouseClick(WORD dwButtonState);
 	
 };
 
@@ -139,12 +184,12 @@ private:
 	int size;
 	char* canvas;
 	
+public:
+	static bool IsMouseClicked;
 
-public:	
 	Game2D(int width = 10, int height = 10)
 		: width(width), height(height), canvas(new char[(width + 1) * height])
-	{
-		
+	{	
 		isLooping = new bool;
 		*isLooping = true;
 
@@ -162,6 +207,8 @@ public:
 			delete canvas;
 			canvas = new char[size];
 		}
+
+		
 	}
 
 	virtual ~Game2D()
