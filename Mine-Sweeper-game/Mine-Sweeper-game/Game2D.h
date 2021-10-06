@@ -185,11 +185,10 @@ private:
 	char* canvas;
 	
 public:
-	Input* input;
 	static bool IsMouseClicked;
 
 	Game2D(int width = 10, int height = 10)
-		: width(width), height(height), canvas(new char[(width + 1) * height]), input(Input::GetInstance())
+		: width(width), height(height), canvas(new char[(width + 1) * height])
 	{	
 		isLooping = new bool;
 		*isLooping = true;

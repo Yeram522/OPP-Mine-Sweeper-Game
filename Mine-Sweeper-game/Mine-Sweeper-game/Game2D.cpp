@@ -132,20 +132,12 @@ void Game2D::run()//자식게임클래스를 실행하는 함수이고 while문을 포함한다.
 	bool isClear = false;
 	//키 입력 변수-------------
 	
-	Input* Instance = Input::GetInstance();
-	input = Input::GetInstance();
+	Input* input = Input::GetInstance();
 	
-	input->Intialize();
+	//input->Intialize();
 	
 	//게임 루프 스타트!!
 	while (*isLooping) {
-
-		Borland::gotoxy(44, 10);
-		printf("%d", &input);
-		Borland::gotoxy(44, 11);
-		printf("%d", &Instance);
-		Borland::gotoxy(0, 0);
-
 		if (gameclear())
 		{
 			Borland::gotoxy(44, 9);
