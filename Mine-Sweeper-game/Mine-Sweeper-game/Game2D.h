@@ -13,7 +13,6 @@
 class Game2D;
 class Input;
 
-extern bool* isLooping;
 
 class Input
 {
@@ -156,12 +155,13 @@ private:
 	
 public:
 	static bool IsMouseClicked;
+	static bool isLooping;
 
 	Game2D(int width = 10, int height = 10)
 		: width(width), height(height), canvas(new char[(width + 1) * height])
 	{	
-		isLooping = new bool;
-		*isLooping = true;
+		//isLooping = new bool;
+		
 
 		bool faultyInput = false;
 		if (this->width <= 0) {

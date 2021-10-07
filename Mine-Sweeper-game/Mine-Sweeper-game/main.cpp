@@ -38,7 +38,7 @@ public:
 				if (fieldpos.x == Input::ClickedPos.x && fieldpos.y == Input::ClickedPos.y)
 				{
 					fields[i].Clicked();
-					if (fields[i].GetState() == STATE_SPOT) *isLooping = false;
+					if (fields[i].GetState() == STATE_SPOT)  Game2D::exit();
 					//지뢰를 클릭했다면 게임오버가 된다.
 				}
 			}
@@ -56,7 +56,7 @@ public:
 			if (i%11!=0 && fields[i-1].GetIsClicked() == false) sum++;
 
 		if (flag_count != sum) return false;
-		*isLooping = false;
+		Game2D::isLooping = false;
 		return true;
 	
 	}

@@ -1,7 +1,7 @@
 #include "Game2D.h"
 
 Input* Input::Instance = nullptr;
-bool *isLooping;
+bool Game2D::isLooping=true;
 WindowPos Input:: ClickedPos;
 //-------------
 // 
@@ -55,7 +55,7 @@ void Input::KeyEventProc(KEY_EVENT_RECORD ker)
 		break;
 	case VK_ESCAPE:
 		printf("escape key");
-		*isLooping = false;
+		Game2D::isLooping = false;
 		break;
 	case VK_UP:
 		printf("arrow up");
@@ -137,7 +137,7 @@ void Game2D::run()//자식게임클래스를 실행하는 함수이고 while문을 포함한다.
 	//input->Intialize();
 	
 	//게임 루프 스타트!!
-	while (*isLooping) {
+	while (isLooping) {
 		if (gameclear())
 		{
 			Borland::gotoxy(44, 9);
@@ -166,5 +166,5 @@ void Game2D::run()//자식게임클래스를 실행하는 함수이고 while문을 포함한다.
 
 void Game2D::exit()
 {
-	*isLooping = false;
+	isLooping = false;
 }
